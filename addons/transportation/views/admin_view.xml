@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<act_window id="action_administrative_city"
+	      		name="City"
+	      		res_model="res.country.city"
+	      		view_mode="tree,form" />
+	    <act_window id="action_administrative_district"
+	      		name="District"
+	      		res_model="res.country.city.district"
+	      		view_mode="tree,form" />
+	    <act_window id="action_administrative_ward"
+	      		name="Ward"
+	      		res_model="res.country.city.district.ward"
+	      		view_mode="tree,form" />
+	    <menuitem id="menu_shipment_management_administrative_root"
+      		name="Administrative"
+      		parent="menu_shipment_management_top" />
+      		
+		<menuitem id="menu_shipment_management_administrative_city"
+      			name="City"
+      			parent="menu_shipment_management_administrative_root"
+      			sequence="20"
+      			action="action_administrative_city" />
+      	<menuitem id="menu_shipment_management_administrative_district"
+      			name="District"
+      			parent="menu_shipment_management_administrative_root"
+      			sequence="20"
+      			action="action_administrative_district" />
+      	<menuitem id="menu_shipment_management_administrative_ward"
+      			name="Ward"
+      			parent="menu_shipment_management_administrative_root"
+      			sequence="20"
+      			action="action_administrative_ward" />
+      			
+      			
+      	<record id = "view_administrative_city_form" model = "ir.ui.view">
+      		<field name = "name">res.country.city.form</field>
+    		<field name = "model">res.country.city</field>
+    		<field name = "arch" type = "xml">
+    			<form string = "City">
+    				<header>
+    				</header>
+    				<sheet>
+    					<group>
+    						<field name = "name" />
+    						<field name = "country_id" />
+    					</group>
+    				</sheet>
+    			</form>
+    		</field>
+      	</record>
+      	<record id="view_administrative_city_tree" model="ir.ui.view">
+      		<field name = "name">res.country.city.tree</field>
+    		<field name = "model">res.country.city</field>
+    		<field name = "arch" type = "xml">
+    			<tree>
+    				<field name = "name" />
+    				<field name = "country_id" />
+    			</tree>
+    		</field>
+      	</record>
+      	
+      	<record id = "view_administrative_district_form" model = "ir.ui.view">
+      		<field name = "name">res.country.city.district.form</field>
+    		<field name = "model">res.country.city.district</field>
+    		<field name = "arch" type = "xml">
+    			<form string = "District">
+    				<header>
+    				</header>
+    				<sheet>
+    					<group>
+    						<field name = "name" />
+    						<field name = "city_id" />
+    					</group>
+    				</sheet>
+    			</form>
+    		</field>
+      	</record>
+      	<record id="view_administrative_district_tree" model="ir.ui.view">
+      		<field name = "name">res.country.city.district.tree</field>
+    		<field name = "model">res.country.city.district</field>
+    		<field name = "arch" type = "xml">
+    			<tree>
+    				<field name = "name" />
+    				<field name = "city_id" />
+    			</tree>
+    		</field>
+      	</record>
+
+      	<record id = "view_administrative_ward_form" model = "ir.ui.view">
+      		<field name = "name">res.country.city.district.ward.form</field>
+    		<field name = "model">res.country.city.district.ward</field>
+    		<field name = "arch" type = "xml">
+    			<form string = "Ward">
+    				<header>
+    				</header>
+    				<sheet>
+    					<group>
+    						<field name = "name" />
+    						<field name = "district_id" />
+    					</group>
+    				</sheet>
+    			</form>
+    		</field>
+      	</record>
+      	<record id="view_administrative_district_tree" model="ir.ui.view">
+      		<field name = "name">res.country.city.district.ward.tree</field>
+    		<field name = "model">res.country.city.district.ward</field>
+    		<field name = "arch" type = "xml">
+    			<tree>
+    				<field name = "name" />
+    				<field name = "district_id" />
+    			</tree>
+    		</field>
+      	</record>
+	</data>
+</openerp>

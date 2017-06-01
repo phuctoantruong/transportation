@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<report id="shipment_report" 
+				model="nn.image.test" 
+				string="Shipment Report"
+				report_type="qweb-pdf" 
+				name="transportation.shipment_report_pdf"
+				file="transportation.shipment_report_pdf" 
+				attachment_use="True"
+				/>
+	</data>
+</openerp>

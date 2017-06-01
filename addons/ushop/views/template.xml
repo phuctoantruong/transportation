@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id = "asset" inherit_id="website.assets_frontend" name = "ushop">
+			<xpath expr="." position="inside">
+		      <script type="text/javascript" src="/ushop/asset/js/custom.js"></script>
+		  </xpath>
+		</template>
+		<template id="checkout_inherit" inherit_id="website_sale.checkout">
+			<xpath expr="//div[@class='col-md-8 oe_cart']" position="replace">
+				<div class="col-md-8 oe_cart">
+					<h3 class="page-header mt16">
+						Billing Information
+						<small groups="base.group_public">
+							or
+							<a class='btn btn-primary' t-if="not partner"
+								t-attf-href="/web?redirect=#{ request.httprequest.url }">Sign in</a>
+						</small>
+					</h3>
+					<div class="row">
+						<div class="col-md-12">
+							<div t-if="error_message" class="alert alert-danger">
+								<t t-foreach="error_message" t-as="err">
+									<t t-esc="err" />
+									<br />
+								</t>
+							</div>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="contact_name">Your Name</label>
+							<input type="text" name="name" class="form-control"
+								t-att-value="checkout.get('name')" />
+						</div>
+						<div t-if="has_check_vat" class="clearfix" />
+						<div
+							t-attf-class="form-group #{error.get('street2') and 'has-error' or ''} col-lg-6">
+							<label class="control-label label-optional" for="street">Company
+								Name</label>
+							<input type="text" name="street2" class="form-control" />
+						</div>
+						<div t-if="has_check_vat"
+							t-attf-class="form-group #{error.get('vat') and 'has-error' or ''} col-lg-6">
+							<label class="control-label label-optional" for="vat">VAT Number
+							</label>
+							<input type="text" name="vat" class="form-control"
+								t-att-value="checkout.get('vat')" />
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="contact_name">Email</label>
+							<input type="email" name="email" class="form-control"
+								t-att-value="checkout.get('email')" />
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="phone">Phone</label>
+							<input type="tel" name="phone" class="form-control"
+								t-att-value="checkout.get('phone')" />
+						</div>
+
+						<div
+							t-attf-class="form-group #{error.get('country_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="country_id">Country</label>
+							<select name="country_id" class="form-control" >
+								<option value="">Country...</option>
+								<t t-foreach="countries or []" t-as="country">
+									<option t-att-value="country.id"
+										t-att-selected="country.id == checkout.get('country_id')">
+										<t t-esc="country.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('city_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="city_id">City / Province</label>
+							<select name="city_id" class="form-control" onchange ="changeCity()">
+								<option value="">City...</option>
+								<t t-foreach="cities or []" t-as="city">
+									<option t-att-value="city.id"
+										t-att-selected="city.id == checkout.get('city_id')">
+										<t t-esc="city.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div class="clearfix" />
+
+						<div
+							t-attf-class="form-group #{error.get('district_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="district_id">District</label>
+							<select name="district_id" class="form-control" onchange ="changeDistrict()">
+								<option value="">District...</option>
+								<t t-foreach="districts or []" t-as="district">
+									<option t-att-value="district.id"
+										t-att-selected="district.id == checkout.get('district_id')">
+										<t t-esc="district.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('ward_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="ward_id">Ward</label>
+							<select name="ward_id" class="form-control">
+								<option value="">Ward...</option>
+								<t t-foreach="wards or []" t-as="ward">
+									<option t-att-value="ward.id" 
+										t-att-selected="ward.id == checkout.get('ward_id')">
+										<t t-esc="ward.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="street">Street</label>
+							<input type="text" name="street" class="form-control"
+								t-att-value="checkout.get('street')" />
+						</div>
+						<!-- <div
+							t-attf-class="form-group #{error.get('state_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label label-optional" for="state_id">State /
+								Province</label>
+							<select name="state_id" class="form-control">
+								<option value="">select...</option>
+								<t t-foreach="states or []" t-as="state">
+									<option t-att-value="state.id" style="display:none;"
+										t-att-data-country_id="state.country_id.id" t-att-selected="state.id == checkout.get('state_id')">
+										<t t-esc="state.name" />
+									</option>
+								</t>
+							</select>
+						</div> -->
+
+						<div class="clearfix" />
+
+						<div t-if="not only_services" class="form-group col-lg-12">
+							<label>Shipping</label>
+							<select name="shipping_id" class="form-control">
+								<option value="0">Ship to the same address</option>
+								<t t-foreach="shippings" t-as="shipping">
+									<option t-att-value="shipping.id" t-att-selected="shipping.id == shipping_id"
+										t-att-data-shipping_name="shipping.name"
+										t-att-data-shipping_phone="shipping.phone"
+										t-att-data-shipping_street="shipping.street"
+										t-att-data-shipping_city_id="shipping.city_id and shipping.city_id.id"
+										t-att-data-shipping_district_id="shipping.district_id and shipping.district_id.id"
+										t-att-data-shipping_ward_id="shipping.ward_id and shipping.ward_id.id"
+										t-att-data-shipping_country_id="shipping.country_id and shipping.country_id.id">
+										<t
+											t-esc="', '.join('\n'.join(shipping.name_get()[0][1].split(',')).split('\n')[1:])" />
+									</option>
+								</t>
+								<option value="-1"
+									t-att-selected="error and len(error) > 0 and shipping_id == -1">-- Create a new address --</option>
+							</select>
+						</div>
+					</div>
+					<div t-if="not only_services" class="js_shipping row mb16"
+						t-att-style="not shipping_id and 'display:none' or ''">
+						<h3 class="oe_shipping col-lg-12 mt16">Shipping Information</h3>
+
+						<div
+							t-attf-class="form-group #{error.get('shipping_name') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_name">Name (Shipping)</label>
+							<input type="text" name="shipping_name" class="form-control"
+								t-att-value="checkout.get('shipping_name', '')" t-att-readonly="'readonly' if shipping_id &gt;= 0 else ''" />
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_phone') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_phone">Phone</label>
+							<input type="tel" name="shipping_phone" class="form-control"
+								t-att-value="checkout.get('shipping_phone', '')" t-att-readonly="  'readonly' if shipping_id &gt;= 0 else ''" />
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_country_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_country_id">Country</label>
+							<select name="shipping_country_id" class="form-control"
+								t-att-disabled="  'disabled' if shipping_id &gt;= 0 else ''">
+								<option value="">Country...</option>
+								<t t-foreach="countries or []" t-as="country">
+									<option t-att-value="country.id"
+										t-att-selected="country.id == checkout.get('shipping_country_id')">
+										<t t-esc="country.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_city_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_city_id">City</label>
+							<select name="shipping_city_id" class="form-control" onchange="changeShippingCity()"
+								t-att-disabled="  'disabled' if shipping_id &gt;= 0 else ''">
+								<option value="">City...</option>
+								<t t-foreach="cities or []" t-as="city">
+									<option t-att-value="city.id"
+										t-att-selected="city.id == checkout.get('shipping_city_id')">
+										<t t-esc="city.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_district_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_district_id">District</label>
+							<select name="shipping_district_id" class="form-control" onchange="changeShippingDistrict()"
+								t-att-disabled="  'disabled' if shipping_id &gt;= 0 else ''">
+								<option value="">District...</option>
+								<t t-foreach="districts or []" t-as="district">
+									<option t-att-value="district.id"
+										t-att-selected="district.id == checkout.get('shipping_district_id')">
+										<t t-esc="district.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_ward_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_ward_id">Ward</label>
+							<select name="shipping_ward_id" class="form-control"
+								t-att-disabled="  'disabled' if shipping_id &gt;= 0 else ''">
+								<option value="">Ward...</option>
+								<t t-foreach="wards or []" t-as="ward">
+									<option t-att-value="ward.id"
+										t-att-selected="ward.id == checkout.get('shipping_ward_id')">
+										<t t-esc="ward.name" />
+									</option>
+								</t>
+							</select>
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_street') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_street">Street</label>
+							<input type="text" name="shipping_street" class="form-control"
+								t-att-value="checkout.get('shipping_street', '')"
+								t-att-readonly=" 'readonly' if shipping_id &gt;= 0 else ''" />
+						</div>
+						<div class="clearfix" />
+						<!-- <div
+							t-attf-class="form-group #{error.get('shipping_city') and 'has-error' or ''} col-lg-6">
+							<label class="control-label" for="shipping_city">City</label>
+							<input type="text" name="shipping_city" class="form-control"
+								t-att-value="checkout.get('shipping_city', '')" t-att-readonly=" 'readonly' if shipping_id &gt;= 0 else ''" />
+						</div>
+						<div
+							t-attf-class="form-group #{error.get('shipping_zip') and 'has-error' or ''} col-lg-6">
+							<label class="control-label label-optional" for="shipping_zip">Zip /
+								Postal Code</label>
+							<input type="text" name="shipping_zip" class="form-control"
+								t-att-value="checkout.get('shipping_zip', '')" t-att-readonly=" 'readonly' if shipping_id &gt;= 0 else ''" />
+						</div> -->
+						<!-- <div
+							t-attf-class="form-group #{error.get('shipping_state_id') and 'has-error' or ''} col-lg-6">
+							<label class="control-label label-optional" for="shipping_state_id">State /
+								Province</label>
+							<select name="shipping_state_id" class="form-control"
+								t-att-disabled="  'disabled' if shipping_id &gt;= 0 else ''">
+								<option value="">State / Province...</option>
+								<t t-foreach="states or []" t-as="state">
+									<option t-att-value="state.id" style="display:none;"
+										t-att-data-country_id="state.country_id.id"
+										t-att-selected="state.id == checkout.get('shipping_state_id')">
+										<t t-esc="state.name" />
+									</option>
+								</t>
+							</select>
+						</div> -->
+					</div>
+					<div class="clearfix">
+						<a href="/shop/cart" class="btn btn-default mb32">
+							<span class="fa fa-long-arrow-left" />
+							Return to Cart
+						</a>
+						<a class="btn btn-default btn-primary pull-right mb32 a-submit">
+							Confirm
+							<span class="fa fa-long-arrow-right" />
+						</a>
+					</div>
+				</div>
+			</xpath>
+		</template>
+	</data>
+</openerp>

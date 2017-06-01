@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<act_window id="action_shipment_management"
+      		name="Shipment Management"
+      		res_model="shipment.management"
+      		view_mode="tree,form" />
+      	<menuitem id="menu_shipment_management_top"
+      		name="Transportation"
+      		sequence="40"/>
+      	<menuitem id="menu_shipment_management_root"
+      		name="Shipment management"
+      		parent="menu_shipment_management_top" />
+      	<menuitem id="menu_shipment_management"
+      			name="Shipment"
+      			parent="menu_shipment_management_root"
+      			sequence="20"
+      			action="action_shipment_management" />
+      	<record id = "view_shipment_form" model = "ir.ui.view">
+      		<field name = "name">shipment.management.form</field>
+    		<field name = "model">shipment.management</field>
+    		<field name = "arch" type = "xml">
+    			<form string = "Shipment">
+    				<header>
+    					<button string="Set to Done" type="object" name="done_progressbar" attrs="{'invisible': [('state','=','done')]}"/>
+    					<field name="state" widget="statusbar" statusbar_visible="ready,done" />
+    				</header>
+    				<sheet>
+	    				<div class="oe_title">
+	                        <h1>
+	                            <field name="name"/>
+	                        </h1>
+	                    </div>
+    					<group col="4">
+    						<field name = "route"></field>
+    						<field name = "depot_address"></field>
+    					</group>
+    					<notebook>
+    						<page string = "Sale Order">
+    							<field name = "ship_line_ids" mode = "tree">
+    								<form>
+    									<group>
+    										<field name = "order_id" invisible = "1"/>
+    										<field name = "index"/>
+    										<field name = "name"/>
+    										<field name = "sale_order_id" domain="[('state','=','sale')]"/>
+    										<field name = "address"/>
+    									</group>
+    								</form>
+    								<tree editable="1">
+   									    <field name = "order_id" invisible = "1"/>
+   										<field name = "index"/>
+   										<field name = "name"/>
+   										<field name = "sale_order_id" domain="[('state','=','sale')]"/>
+   										<field name = "address"/>
+    								</tree>
+    							</field>
+    						</page>
+    					</notebook>
+    				</sheet>
+    			</form>
+    		</field>
+      	</record>
+      	<record id="view_shipment_tree" model="ir.ui.view">
+      		<field name = "name">shipment.management.tree</field>
+    		<field name = "model">shipment.management</field>
+    		<field name = "arch" type = "xml">
+    			<tree>
+    				<field name = "name"></field>
+    				<field name = "route"></field>
+    				<field name = "state"></field>
+    			</tree>
+    		</field>
+      	</record>
+	</data>
+</openerp>

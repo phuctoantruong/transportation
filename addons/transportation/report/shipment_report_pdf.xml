@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="shipment_report_pdf">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<div class="oe_structure" />
+							<table>
+								<tr>
+									<td style="width:33% !important;">
+										Full size:
+										<br />
+										<span t-field="o.image" t-field-options='{"widget": "image"}' />
+									</td>
+									<td style="width:33% !important;">
+										Name:
+										<br />
+										<span t-field="o.name" />
+									</td>
+								</tr>
+							</table>
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>
