@@ -9,7 +9,7 @@
       		name="Transportation"
       		sequence="40"/>
       	<menuitem id="menu_shipment_management_root"
-      		name="Shipment management"
+      		name="Shipment Management"
       		parent="menu_shipment_management_top" />
       	<menuitem id="menu_shipment_management"
       			name="Shipment"
@@ -43,7 +43,7 @@
     										<field name = "order_id" invisible = "1"/>
     										<field name = "index"/>
     										<field name = "name"/>
-    										<field name = "sale_order_id" domain="[('state','=','sale')]" options="{'no_create': True}"/>
+    										<field name = "sale_order_id" domain="[('state','=','to_shipment')]" options="{'no_create': True}"/>
     										<field name = "address"/>
     									</group>
     								</form>
@@ -51,7 +51,7 @@
    									    <field name = "order_id" invisible = "1"/>
    										<field name = "index"/>
    										<field name = "name"/>
-   										<field name = "sale_order_id" domain="[('state','=','sale')]" options="{'no_create': True}"/>
+   										<field name = "sale_order_id" domain="[('state','=','to_shipment')]" options="{'no_create': True}"/>
    										<field name = "address"/>
     								</tree>
     							</field>

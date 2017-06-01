@@ -5,21 +5,21 @@ class Shipment(models.Model):
     name = fields.Char("Name", required=True)
     route = fields.Char("Route", required=True)
     depot_address = fields.Char("Depot Address")
-    state = fields.Selection([
+    state = fields.Selection([("plan","Plan"),
                               ("ready","Ready"),
                               ("done","Done")],
                              string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='ready')
     ship_line_ids = fields.One2many("shipment.management.line","ship_id",String = "Order lines")
     
+    #TODO:
+    #stockpicking DONE
     @api.one
     def done_progressbar(self):
         for i in self.ship_line_ids:
-            i.sale_order_id.write({'state': 'in_shipment',
+            i.sale_order_id.write({'state': 'done',
                                    })
         self.write({'state': 'done',
                     })
-        
-        
         
 class ShipmentLine(models.Model):
     _name = "shipment.management.line"
