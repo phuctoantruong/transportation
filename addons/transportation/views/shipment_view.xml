@@ -43,7 +43,7 @@
     										<field name = "order_id" invisible = "1"/>
     										<field name = "index"/>
     										<field name = "name"/>
-    										<field name = "sale_order_id" domain="[('state','=','sale')]"/>
+    										<field name = "sale_order_id" domain="[('state','=','sale')]" options="{'no_create': True}"/>
     										<field name = "address"/>
     									</group>
     								</form>
@@ -51,7 +51,7 @@
    									    <field name = "order_id" invisible = "1"/>
    										<field name = "index"/>
    										<field name = "name"/>
-   										<field name = "sale_order_id" domain="[('state','=','sale')]"/>
+   										<field name = "sale_order_id" domain="[('state','=','sale')]" options="{'no_create': True}"/>
    										<field name = "address"/>
     								</tree>
     							</field>
