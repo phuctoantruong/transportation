@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 		<report id="shipment_report" 
-				model="nn.image.test" 
+				model="shipment.management" 
 				string="Shipment Report"
 				report_type="qweb-pdf" 
 				name="transportation.shipment_report_pdf"

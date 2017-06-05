@@ -22,37 +22,41 @@
     		<field name = "arch" type = "xml">
     			<form string = "Shipment">
     				<header>
-    					<button string="Set to Done" type="object" name="done_progressbar" attrs="{'invisible': [('state','=','done')]}"/>
-    					<field name="state" widget="statusbar" statusbar_visible="ready,done" />
+    					<button string="Set to Ready" type="object" states="plan" name="ready_progressbar" class="oe_highlight"/>
+    					<button string="Set to Done" type="object" states="ready" name="done_progressbar" class="oe_highlight"/>
+    					<field name="state" widget="statusbar" statusbar_visible="plan,ready,done" />
     				</header>
     				<sheet>
 	    				<div class="oe_title">
 	                        <h1>
-	                            <field name="name"/>
+	                            <field name="name" readonly="1"/>
 	                        </h1>
 	                    </div>
     					<group col="4">
     						<field name = "route"></field>
-    						<field name = "depot_address"></field>
+    						<field name = "vehicle"></field>
+    						<field name = "total_qty"></field>
+    						<field name = "distance"></field>
+    						<field name = "duration"></field>
+    						<field name = "location_code"></field>
+    						<field name = "maps" widget="image"></field>
     					</group>
     					<notebook>
     						<page string = "Sale Order">
-    							<field name = "ship_line_ids" mode = "tree">
+    							<field name = "ship_line_ids" mode = "tree,kanban" attrs="{'readonly': [('state', 'in', ('done'))]}">
     								<form>
     									<group>
-    										<field name = "order_id" invisible = "1"/>
-    										<field name = "index"/>
-    										<field name = "name"/>
-    										<field name = "sale_order_id" domain="[('state','=','to_shipment')]" options="{'no_create': True}"/>
+    										<field name = "sale_order_id" domain="[('state','=','sale')]"/>
     										<field name = "address"/>
+    										<field name = "order_qty"/>
+    										<field name = "index"/>
     									</group>
     								</form>
     								<tree editable="1">
-   									    <field name = "order_id" invisible = "1"/>
-   										<field name = "index"/>
-   										<field name = "name"/>
-   										<field name = "sale_order_id" domain="[('state','=','to_shipment')]" options="{'no_create': True}"/>
+   										<field name = "sale_order_id" domain="[('state','=','sale')]"/>
    										<field name = "address"/>
+   										<field name = "order_qty"/>
+   										<field name = "index"/>
     								</tree>
     							</field>
     						</page>
@@ -67,8 +71,11 @@
     		<field name = "arch" type = "xml">
     			<tree>
     				<field name = "name"></field>
+    				<field name = "vehicle"></field>
     				<field name = "route"></field>
-    				<field name = "state"></field>
+    				<field name = "total_qty"></field>
+    				<field name = "distance"></field>
+    				<field name = "duration"></field>
     			</tree>
     		</field>
       	</record>

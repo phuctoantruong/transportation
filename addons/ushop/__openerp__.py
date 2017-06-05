@@ -4,7 +4,7 @@
     'description': 'UShop',
     'author': 'NN',   
     'application': True,
-    'depends':['shipment','website_sale'],
+    'depends':['transportation','website_sale'],
     'data': [
              "views/template.xml",
 

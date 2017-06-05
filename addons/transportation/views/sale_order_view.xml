@@ -7,11 +7,11 @@
             <field name="inherit_id" ref="sale.view_order_form"></field>
             <field name="arch" type="xml">
             	<xpath expr="//field[@name='state']" position="replace">
-            		<field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,planning,to_shipment,done"/>
+            		<field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,planned,in_shipment,done"/>
             	</xpath>
             	<xpath expr="//button[@name='action_cancel']" position="inside">
-            		<button name="action_planning" states="sale" type='object' string="Planning" class="oe_highlight"/>
-            		<button name="action_to_shipment" states="planning" type='object' string="To Shipment" class="oe_highlight"/>
+            		<!-- <button name="action_planning" states="sale" type='object' string="Planned" class="oe_highlight"/> -->
+            		<!-- <button name="action_to_shipment" states="planning" type='object' string="To Shipment" class="oe_highlight"/> -->
             	</xpath>
             </field>
 		</record>

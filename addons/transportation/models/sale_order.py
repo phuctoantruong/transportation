@@ -9,8 +9,8 @@ class sale_order(models.Model):
         ('draft', 'Quotation'),
         ('sent', 'Quotation Sent'),
         ('sale', 'Sale Order'),
-        ('planning', 'Planning'),
-        ('to_shipment','To Shipment'),
+        ('planned', 'Planned'),
+        ('in_shipment','In Shipment'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='draft')
@@ -25,25 +25,25 @@ class sale_order(models.Model):
         return True
     
     @api.multi
-    def action_planning(self):
+    def action_planned(self):
         for order in self:
-            order.state = 'planning'
+            order.state = 'planned'
     
     #TODO:
     #create stock.picking       
     @api.multi
-    def action_to_shipment(self, location_name=None):
+    def action_to_shipment(self, location_code=None):
         for order in self:
             #Change stock.warehouse
-            if location_name:
-                stock_warehouse_obj = self.env['stock.warehouse'].search([('name', '=', location_name)])
+            if location_code:
+                stock_warehouse_obj = self.env['stock.warehouse'].search([('code', '=', location_code)])
                 order.warehouse_id = stock_warehouse_obj
             #end
             #Create stock.picking
             order.order_line._action_procurement_create()
 #             order._create_picking()
             #end
-            order.state = 'to_shipment'
+            order.state = 'in_shipment'
         if self.env['ir.values'].get_default('sale.config.settings', 'auto_done_setting'):
             self.action_done()
         return True
@@ -139,7 +139,7 @@ class SaleOrderLine(models.Model):
         new_procs = self.env['procurement.order'] #Empty recordset
         for line in self:
             #change state 'sale' to 'planning'
-            if line.state != 'planning' or not line.product_id._need_procurement():
+            if line.state != 'planned' or not line.product_id._need_procurement():
                 continue
             qty = 0.0
             for proc in line.procurement_ids:

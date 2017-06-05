@@ -3,24 +3,87 @@
 	<data>
 		<template id="shipment_report_pdf">
 			<t t-call="report.html_container">
-				<t t-foreach="docs" t-as="o">
+				<t t-foreach="ship" t-as="o">
 					<t t-call="report.external_layout">
 						<div class="page">
 							<div class="oe_structure" />
-							<table>
-								<tr>
-									<td style="width:33% !important;">
-										Full size:
-										<br />
-										<span t-field="o.image" t-field-options='{"widget": "image"}' />
-									</td>
-									<td style="width:33% !important;">
-										Name:
-										<br />
-										<span t-field="o.name" />
-									</td>
-								</tr>
-							</table>
+							<div style=" width:100% !important;">
+								<span t-field="o.maps" t-field-options='{"widget": "image"}' />
+							</div>
+							<div class="row col-xs-12">
+								<div>
+									Xe:
+									<span t-field="o.vehicle"></span>
+								</div>
+								<div>
+									Lộ trình:
+									<span t-field="o.route"></span>
+								</div>
+							</div>
+							<t t-set="tem" t-value="direction(o.driving_direction)" />
+							<t t-set="routes" t-value="tem['routes']" />
+							<div class="col-xs-12">
+								<div class="col-xs-1"></div>
+								<t t-set="i" t-value="1" />
+								<div class="col-xs-11">
+									<t t-foreach="routes[0]['legs']" t-as="legs">
+										<div>
+											<!-- <span t-esc="legs['start_address']"></span> -->
+											<t t-if="(i-1) == 0">
+												<span>Depot</span>
+											</t>
+											<t t-foreach="ship_line" t-as="line">
+												<t
+													t-if="line.ship_id.id == o.id and line.index == (i-1) and (i-1)>0">
+													<span t-esc="line.sale_order_id.name"></span>
+												</t>
+											</t>
+											<span>-></span>
+											<!-- <span t-esc="legs['end_address']"></span> -->
+											<t t-foreach="ship_line" t-as="line">
+												<t t-if="line.ship_id.id == o.id and line.index == i">
+													<span t-esc="line.sale_order_id.name"></span>
+												</t>
+											</t>
+											<t t-if="legs_size == i">
+												<span>Depot</span>
+											</t>
+										</div>
+										<div>
+											<t t-foreach="legs['steps']" t-as="steps">
+												<div>
+													<b> * </b>
+													<span t-raw="steps['html_instructions']"></span>
+													<b> Khoảng cách:</b>
+													<span t-esc="steps['distance']['text']"></span>
+												</div>
+											</t>
+										</div>
+										<div class="col-xs-12">
+											<div class="col-xs-1"></div>
+											<div class="col-xs-11">
+												<t t-foreach="ship_line" t-as="line">
+													<t t-if="line.ship_id.id == o.id and line.index == i">
+														<p>
+															<b>Giao đơn hàng </b>
+															<b t-esc="line.sale_order_id.name"></b>
+															<b> :</b>
+															<span t-esc="line.order_qty"></span>
+															<span> phần</span>
+														</p>
+														<p>
+															<b>Tổng tiền: </b>
+															<span t-esc="line.sale_order_id.amount_total"></span>
+															<b>  VNĐ</b>
+														</p>
+													</t>
+												</t>
+											</div>
+										</div>
+										<t t-set="i" t-value="i+1" />
+									</t>
+								</div>
+							</div>
 							<div class="oe_structure" />
 						</div>
 					</t>
