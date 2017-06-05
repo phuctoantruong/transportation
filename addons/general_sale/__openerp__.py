@@ -4,7 +4,7 @@
     'description': '',
     'author': '',   
     'application': True,
-    'depends': ['base', 'sale', 'account'],
+    'depends': ['base', 'sale', 'account', 'stock'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
